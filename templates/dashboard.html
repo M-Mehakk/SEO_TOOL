@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO OPTIMIZER | AI Powered SEO Analyzer and Website Optimization Tool</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #22c55e;
+            border-radius: 10px;
+        }
+
+        /* ========== NAVIGATION ========== */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .nav.scrolled {
+            padding: 12px 60px;
+            background: rgba(2, 6, 23, 0.98);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            color: #22c55e;
+            font-weight: 800;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 28px;
+        }
+
+        .right-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .menu-icon:hover {
+            color: #22c55e;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-login, .btn-signup {
+            padding: 8px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 1px solid #22c55e;
+            color: white;
+        }
+
+        .btn-login:hover {
+            background: #22c55e;
+            color: white;
+        }
+
+        .btn-signup {
+            background: #22c55e;
+            border: none;
+            color: white;
+        }
+
+        .btn-signup:hover {
+            background: #16a34a;
+            transform: translateY(-2px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 280px;
+            height: 100%;
+            background: rgba(2, 6, 23, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            transition: right 0.3s ease;
+            padding: 80px 20px 20px;
+            border-left: 1px solid rgba(34,197,94,0.3);
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            margin: 5px 0;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .sidebar a:hover {
+            background: rgba(34,197,94,0.2);
+            color: #22c55e;
+            transform: translateX(-5px);
+        }
+
+        .close-sidebar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .close-sidebar:hover {
+            color: #22c55e;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* ========== HERO SECTION WITH VIDEO ========== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 20px 80px;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 50%, rgba(34,197,94,0.2) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #22c55e, #4ade80);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #cbd5e1;
+            margin-bottom: 35px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .search-box input {
+            padding: 16px 24px;
+            width: 400px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            font-size: 16px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #22c55e;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+
+        .btn {
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #22c55e;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* ========== CAROUSEL ========== */
+        .carousel-section {
+            padding: 80px 20px;
+            background: linear-gradient(180deg, #0a0a0a, #020617);
+            text-align: center;
+        }
+
+        .carousel-section h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .carousel-section h2 span {
+            color: #22c55e;
+        }
+
+        .carousel-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 40px auto;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 60px 30px 20px;
+            text-align: left;
+        }
+
+        .slide-caption h3 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .slide-caption p {
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(34, 197, 94, 0.8);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            background: #22c55e;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev-btn { left: 20px; }
+        .next-btn { right: 20px; }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #475569;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #22c55e;
+            width: 30px;
+            border-radius: 10px;
+        }
+
+        /* ========== TOOLS SECTION ========== */
+        .tools-section {
+            padding: 80px 40px;
+            text-align: center;
+            background: #0a0a0a;
+        }
+
+        .tools-section h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 40px auto 0;
+        }
+
+        .tool-card {
+            padding: 35px 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            display: block;
+            text-align: center;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid rgba(34,197,94,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .tool-card:hover::before {
+            opacity: 1;
+        }
+
+        .tool-card i,
+        .tool-card h3,
+        .tool-card p {
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .tool-card i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #22c55e;
+        }
+
+        .tool-card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .tool-card p {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .tool-card:hover i,
+        .tool-card:hover h3,
+        .tool-card:hover p {
+            color: white;
+        }
+
+        /* ========== HOW IT WORKS ========== */
+        .how-it-works {
+            padding: 80px 40px;
+            background: linear-gradient(135deg, #020617, #0a0a0a);
+        }
+
+        .how-it-works h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+        }
+
+        .how-it-works h2 span {
+            color: #22c55e;
+        }
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .work-card {
+            text-align: center;
+            padding: 40px 30px;
+            background: rgba(30,41,59,0.4);
+            border-radius: 20px;
+            border: 1px solid rgba(34,197,94,0.2);
+            transition: all 0.3s;
+        }
+
+        .work-card:hover {
+            transform: translateY(-10px);
+            border-color: #22c55e;
+        }
+
+        .work-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            margin: 0 auto 20px;
+        }
+
+        .work-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .work-card p {
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        /* ========== FEATURES ========== */
+        .features-section {
+            padding: 80px 60px;
+            background: #0a0a0a;
+        }
+
+        .features-section h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+        }
+
+        .features-section h2 span {
+            color: #22c55e;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #22c55e;
+        }
+
+        .feature-card i {
+            font-size: 40px;
+            color: #22c55e;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        /* ========== REVIEW SECTION ========== */
+        .reviews-section {
+            padding: 80px 40px;
+            background: #020617;
+            text-align: center;
+        }
+
+        .reviews-section h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .reviews-section h2 span {
+            color: #22c55e;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 50px auto 0;
+        }
+
+        .review-card {
+            background: rgba(30,41,59,0.5);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(34,197,94,0.2);
+            transition: all 0.3s;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            border-color: #22c55e;
+        }
+
+        .stars {
+            color: #f59e0b;
+            margin-bottom: 15px;
+        }
+
+        .review-text {
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .reviewer {
+            color: #22c55e;
+            font-weight: 600;
+        }
+
+        .review-form {
+            max-width: 600px;
+            margin: 40px auto 0;
+            background: rgba(30,41,59,0.3);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(34,197,94,0.2);
+        }
+
+        .review-form h3 {
+            margin-bottom: 20px;
+        }
+
+        .review-form input, .review-form textarea {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 15px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(34,197,94,0.3);
+            border-radius: 10px;
+            color: white;
+        }
+
+        .review-form input:focus, .review-form textarea:focus {
+            outline: none;
+            border-color: #22c55e;
+        }
+
+        .rating-select {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .rating-select i {
+            font-size: 30px;
+            cursor: pointer;
+            color: #475569;
+            transition: all 0.3s;
+        }
+
+        .rating-select i:hover, .rating-select i.active {
+            color: #f59e0b;
+        }
+
+        .submit-review {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-review:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(34,197,94,0.4);
+        }
+
+        /* ========== FAQ SECTION ========== */
+        .faq-section {
+            padding: 80px 60px;
+            background: #0a0a0a;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+        }
+
+        .faq-section h2 span {
+            color: #22c55e;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(30,41,59,0.3);
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(34,197,94,0.15);
+        }
+
+        .faq-item:hover {
+            background: rgba(34,197,94,0.05);
+            border-color: #22c55e;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .faq-question i {
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-top: 0;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            margin-top: 15px;
+        }
+
+        /* ========== ABOUT ========== */
+        .about-section {
+            padding: 80px 60px;
+            background: linear-gradient(135deg, #020617, #0a0a0a);
+        }
+
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .about-content h2 span {
+            color: #22c55e;
+        }
+
+        .about-content p {
+            color: #94a3b8;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .about-stat {
+            text-align: center;
+            padding: 20px;
+            background: rgba(34,197,94,0.1);
+            border-radius: 15px;
+        }
+
+        .about-stat .number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #22c55e;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+        }
+
+        /* ========== TEAM ========== */
+        .team-section {
+            padding: 80px 40px;
+            background: #0a0a0a;
+            text-align: center;
+        }
+
+        .team-section h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .team-section h2 span {
+            color: #22c55e;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 50px auto 0;
+        }
+
+        .team-card {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(34,197,94,0.2);
+            transition: all 0.3s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            border-color: #22c55e;
+        }
+
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #22c55e, #4ade80);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+        }
+
+        .team-card h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .team-email {
+            color: #22c55e;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+
+        /* ========== CTA ========== */
+        .cta-section {
+            padding: 80px 40px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            padding: 15px 40px;
+            background: white;
+            color: #22c55e;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            background: #020617;
+            padding: 50px 60px 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-grid h4 {
+            margin-bottom: 20px;
+            color: #22c55e;
+        }
+
+        .footer-grid a {
+            display: block;
+            color: #94a3b8;
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .footer-grid a:hover {
+            color: #22c55e;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-links i {
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #94a3b8;
+        }
+
+        .social-links i:hover {
+            color: #22c55e;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 15px 20px;
+            }
+            .auth-buttons {
+                display: none;
+            }
+            .hero h1 {
+                font-size: 32px;
+            }
+            .search-box input {
+                width: 280px;
+            }
+            .works-grid {
+                grid-template-columns: 1fr;
+            }
+            .features-section {
+                padding: 50px 20px;
+            }
+            .tools-section {
+                padding: 50px 20px;
+            }
+            .about-container {
+                grid-template-columns: 1fr;
+            }
+            .carousel-slide img {
+                height: 300px;
+            }
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <div class="close-sidebar" onclick="toggleSidebar()">
+        <i class="fas fa-times"></i>
+    </div>
+    <a href="/">Home</a>
+    <a href="/seo-analyzer">SEO Analyzer</a>
+    <a href="/backlink-finder">Backlink Finder</a>
+    <a href="/keyword-density">Keyword Research</a>
+    <a href="/traffic-checker">Traffic Checker</a>
+    <a href="/domain-checker">Domain Checker</a>
+    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <a href="#" onclick="showAlert('Login')">Login</a>
+        <a href="#" onclick="showAlert('Sign Up')">Sign Up</a>
+    </div>
+</div>
+
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- NAVIGATION -->
+<div class="nav" id="navbar">
+    <div class="logo">
+        <i class="fas fa-chart-line"></i>
+        SEO OPTIMIZER
+    </div>
+    <div class="right-menu">
+        <div class="auth-buttons">
+            {% if session.user_id %}
+                <span style="color: #22c55e; margin-right: 10px;">
+                    <i class="fas fa-user"></i> {{ session.user_name }}
+                </span>
+                <a href="/logout" class="btn-login" style="text-decoration: none; background: #ef4444; border-color: #ef4444;">Logout</a>
+            {% else %}
+                <a href="/login" class="btn-login" style="text-decoration: none;">Login</a>
+                <a href="/signup" class="btn-signup" style="text-decoration: none;">Sign Up</a>
+            {% endif %}
+        </div>
+        <div class="menu-icon" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Hero Section with Video -->
+<div class="hero">
+    <video class="hero-video" autoplay loop muted playsinline>
+        <source src="{{ url_for('static', filename='videos/SEO_BG.mp4') }}" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    
+    <div class="hero-content" data-aos="fade-up">
+        <h1>
+            SEO OPTIMIZER:<br>
+            <span>AI Powered SEO Analyzer & Website Optimization Tool</span>
+        </h1>
+        
+        <p>
+            Analyze your website, detect SEO issues, and boost rankings with our advanced suite of tools.
+        </p>
+        
+        <form action="/seo-analyzer" method="POST" class="search-box">
+            <input type="text" name="url" placeholder="Enter website URL (e.g., https://example.com)" required>
+            <button type="submit" class="btn">
+                <i class="fas fa-search"></i> Analyze Now
+            </button>
+        </form>
+        
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number">50K+</div>
+                <div class="stat-label">Websites Analyzed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Accuracy Rate</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Free Access</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Carousel Section -->
+<div class="carousel-section" data-aos="fade-up">
+    <h2>Our <span>SEO Tools</span></h2>
+    <p>Explore our comprehensive suite of SEO optimization tools</p>
+    
+    <div class="carousel-container">
+        <button class="carousel-btn prev-btn" id="prevBtn">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <div class="carousel-slides" id="carouselSlides">
+            <div class="carousel-slide">
+                <img src="{{ url_for('static', filename='images/pic2SEO.jpeg') }}" alt="SEO Analyzer">
+                <div class="slide-caption">
+                    <h3>SEO Analyzer</h3>
+                    <p>Complete website audit with detailed SEO score and actionable insights</p>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <img src="{{ url_for('static', filename='images/pic3Backlink.png') }}" alt="Backlink Finder">
+                <div class="slide-caption">
+                    <h3>Backlink Finder</h3>
+                    <p>Discover quality backlink opportunities and guest posting sites</p>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <img src="{{ url_for('static', filename='images/pic4Keyword.png') }}" alt="Keyword Research">
+                <div class="slide-caption">
+                    <h3>Keyword Research Tool</h3>
+                    <p>Find high-volume keywords with low competition for better rankings</p>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <img src="{{ url_for('static', filename='images/pic5Traffic.png') }}" alt="Traffic Checker">
+                <div class="slide-caption">
+                    <h3>Traffic Analyzer</h3>
+                    <p>Estimate organic traffic and track keyword performance</p>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <img src="{{ url_for('static', filename='images/pic6Domain.jpeg') }}" alt="Domain Checker">
+                <div class="slide-caption">
+                    <h3>Domain Checker</h3>
+                    <p>Check domain authority, backlinks, and SEO metrics</p>
+                </div>
+            </div>
+        </div>
+        
+        <button class="carousel-btn next-btn" id="nextBtn">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+    
+    <div class="carousel-dots" id="carouselDots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
+
+<!-- Tools Section -->
+<div class="tools-section" data-aos="fade-up">
+    <h2>All-in-One <span style="color:#22c55e;">SEO Tools</span></h2>
+    <div class="tools-grid">
+        <a href="/seo-analyzer" class="tool-card" data-aos="zoom-in">
+            <i class="fas fa-chart-line"></i>
+            <h3>SEO Analyzer</h3>
+            <p>Full website audit with score, issues & fixes</p>
+        </a>
+        
+        <a href="/backlink-finder" class="tool-card" data-aos="zoom-in" data-aos-delay="100">
+            <i class="fas fa-link"></i>
+            <h3>Backlink Finder</h3>
+            <p>Find high-quality backlink opportunities</p>
+        </a>
+        
+        <a href="/keyword-density" class="tool-card" data-aos="zoom-in" data-aos-delay="200">
+            <i class="fas fa-key"></i>
+            <h3>Keyword Research</h3>
+            <p>Find best keywords for ranking</p>
+        </a>
+        
+        <a href="/traffic-checker" class="tool-card" data-aos="zoom-in" data-aos-delay="300">
+            <i class="fas fa-chart-simple"></i>
+            <h3>Traffic Analyzer</h3>
+            <p>Check traffic and ranking positions</p>
+        </a>
+        
+        <a href="/domain-checker" class="tool-card" data-aos="zoom-in" data-aos-delay="400">
+            <i class="fas fa-globe"></i>
+            <h3>Domain Checker</h3>
+            <p>Check domain authority & info</p>
+        </a>
+    </div>
+</div>
+
+<!-- How It Works -->
+<div class="how-it-works" data-aos="fade-up">
+    <h2>How <span>It Works</span></h2>
+    <div class="works-grid">
+        <div class="work-card">
+            <div class="work-number">1</div>
+            <h3>Enter URL</h3>
+            <p>Simply paste your website URL in the search box above and click analyze</p>
+        </div>
+        <div class="work-card">
+            <div class="work-number">2</div>
+            <h3>Get Analysis</h3>
+            <p>Our AI analyzes 50+ SEO factors including meta tags, content, backlinks, and speed</p>
+        </div>
+        <div class="work-card">
+            <div class="work-number">3</div>
+            <h3>Improve Rankings</h3>
+            <p>Follow our actionable recommendations and watch your traffic and rankings grow</p>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="features-section" data-aos="fade-up">
+    <h2>Why Choose <span>SEO OPTIMIZER?</span></h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <i class="fas fa-microchip"></i>
+            <h3>AI Powered</h3>
+            <p>Advanced machine learning based SEO scoring system with intelligent recommendations.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-clock"></i>
+            <h3>Real-Time Analysis</h3>
+            <p>Instant results with accurate data extraction from any website.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-code"></i>
+            <h3>Technical SEO</h3>
+            <p>Analyze speed, structure, meta tags, headings and performance metrics.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-chart-line"></i>
+            <h3>Accurate Data</h3>
+            <p>Real-time data from multiple sources for accurate SEO analysis.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Secure & Private</h3>
+            <p>Your data is safe with us. We don't store any personal information.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-infinity"></i>
+            <h3>Unlimited Usage</h3>
+            <p>No restrictions, analyze as many websites as you want for free.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Reviews Section -->
+<div class="reviews-section" data-aos="fade-up">
+    <h2>What Our <span>Users Say</span></h2>
+    <div class="reviews-grid" id="reviewsContainer">
+        <div class="review-card">
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="review-text">"Best SEO tool I've ever used! Helped me identify critical issues on my website."</div>
+            <div class="reviewer">- Ahmed Raza</div>
+        </div>
+        <div class="review-card">
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+            </div>
+            <div class="review-text">"The AI suggestions are spot-on. My rankings improved significantly!"</div>
+            <div class="reviewer">- Fatima Khan</div>
+        </div>
+        <div class="review-card">
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="review-text">"Completely free and super accurate. Highly recommended for beginners!"</div>
+            <div class="reviewer">- Bilal Ahmed</div>
+        </div>
+    </div>
+    
+    <!-- Review Form -->
+    <div class="review-form">
+        <h3><i class="fas fa-pen"></i> Share Your Experience</h3>
+        <div class="rating-select" id="ratingStars">
+            <i class="far fa-star" data-rating="1"></i>
+            <i class="far fa-star" data-rating="2"></i>
+            <i class="far fa-star" data-rating="3"></i>
+            <i class="far fa-star" data-rating="4"></i>
+            <i class="far fa-star" data-rating="5"></i>
+        </div>
+        <input type="text" id="reviewerName" placeholder="Your Name">
+        <textarea id="reviewText" rows="3" placeholder="Write your review..."></textarea>
+        <button class="submit-review" onclick="submitReview()">Submit Review</button>
+    </div>
+</div>
+
+<!-- FAQ Section -->
+<div class="faq-section" data-aos="fade-up">
+    <h2>Frequently Asked <span>Questions</span></h2>
+    <div class="faq-grid">
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <span>Is SEO OPTIMIZER really free?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Yes! SEO OPTIMIZER is completely free to use with no hidden charges or premium tiers.
+            </div>
+        </div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <span>Do I need to create an account?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                No, you can use all basic tools without registration. Account creation is optional for saving reports.
+            </div>
+        </div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <span>How accurate is the analysis?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Our tool uses real-time data from multiple sources with 98% accuracy rate.
+            </div>
+        </div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <span>Can I export my SEO report?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Yes, you can download your SEO report as PDF using the download button on the results page.
+            </div>
+        </div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <span>How often is data updated?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Data is updated in real-time when you run an analysis on any website.
+            </div>
+        </div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <span>What SEO factors do you analyze?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                We analyze over 50 factors including meta tags, content quality, backlinks, page speed, mobile-friendliness, and more.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- About Section -->
+<div class="about-section" data-aos="fade-up">
+    <div class="about-container">
+        <div class="about-content">
+            <h2>About <span>SEO OPTIMIZER</span></h2>
+            <p>
+                SEO OPTIMIZER is a comprehensive SEO analysis platform designed to help website owners, 
+                digital marketers, and SEO professionals improve their search engine rankings.
+            </p>
+            <p>
+                Our suite of tools provides real-time insights into your website's SEO performance, 
+                helping you identify issues and opportunities for improvement.
+            </p>
+            <div class="about-stats">
+                <div class="about-stat">
+                    <div class="number">50K+</div>
+                    <div>Websites Analyzed</div>
+                </div>
+                <div class="about-stat">
+                    <div class="number">98%</div>
+                    <div>Accuracy Rate</div>
+                </div>
+                <div class="about-stat">
+                    <div class="number">24/7</div>
+                    <div>Free Access</div>
+                </div>
+                <div class="about-stat">
+                    <div class="number">5+</div>
+                    <div>SEO Tools</div>
+                </div>
+            </div>
+        </div>
+        <div class="about-image">
+           <img src="{{ url_for('static', filename='images/Pic1.png') }}" alt="Our Team">
+        </div>
+    </div>
+</div>
+
+<!-- Team Section -->
+<div class="team-section" data-aos="fade-up">
+    <h2>Meet Our <span>Team</span></h2>
+    <div class="team-grid">
+        <div class="team-card">
+            <div class="team-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <h3>Shehzadi Umerzadi</h3>
+            <div class="team-email"><i class="fas fa-envelope"></i> shehzadiumerzadi@gmail.com</div>
+        </div>
+        <div class="team-card">
+            <div class="team-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <h3>Mehak Maqsood</h3>
+            <div class="team-email"><i class="fas fa-envelope"></i> mehakmaqsood567@gmail.com</div>
+        </div>
+        <div class="team-card">
+            <div class="team-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <h3>Yashwa Nisar</h3>
+            <div class="team-email"><i class="fas fa-envelope"></i> yashwanisar1978@gmail.com</div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="cta-section" data-aos="zoom-in">
+    <h2>Ready to Boost Your Rankings?</h2>
+    <p>Start analyzing your website now - It's completely free!</p>
+    <button class="cta-button" onclick="document.querySelector('.search-box input').scrollIntoView({behavior:'smooth'})">
+        <i class="fas fa-rocket"></i> Get Started Now
+    </button>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <div class="footer-grid">
+        <div>
+            <h4><i class="fas fa-chart-line"></i> SEO OPTIMIZER</h4>
+            <p>AI-Powered SEO Analysis Tool</p>
+            <div class="social-links">
+                <i class="fab fa-facebook" onclick="showAlert('Facebook')"></i>
+                <i class="fab fa-twitter" onclick="showAlert('Twitter')"></i>
+                <i class="fab fa-linkedin" onclick="showAlert('LinkedIn')"></i>
+                <i class="fab fa-github" onclick="showAlert('GitHub')"></i>
+                <i class="fab fa-instagram" onclick="showAlert('Instagram')"></i>
+            </div>
+        </div>
+        
+        <div>
+            <h4>Tools</h4>
+            <a href="/seo-analyzer">SEO Analyzer</a>
+            <a href="/backlink-finder">Backlink Finder</a>
+            <a href="/keyword-density">Keyword Research</a>
+            <a href="/traffic-checker">Traffic Checker</a>
+            <a href="/domain-checker">Domain Checker</a>
+        </div>
+        
+        <div>
+            <h4>Resources</h4>
+            <a href="/seo-guide">SEO Guide</a>
+            <a href="/blog">Blog</a>
+            <a href="/support">Support</a>
+        </div>
+
+        <div>
+            <h4>Company</h4>
+            <a href="/about">About Us</a>
+            <a href="/contact">Contact</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/terms-of-service">Terms of Service</a>
+        </div>
+    </div>
+    
+    <div class="copyright">
+        <p>© 2026 SEO OPTIMIZER | All Rights Reserved | Made with <i class="fas fa-heart" style="color:#22c55e;"></i> for better SEO</p>
+    </div>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 800,
+        once: true,
+        offset: 100
+    });
+    
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+    }
+    
+    function showAlert(page) {
+        alert(`${page} page - Coming soon!`);
+    }
+    
+    // FAQ Toggle
+    function toggleFAQ(element) {
+        element.classList.toggle('active');
+    }
+    
+    // Rating Stars
+    let currentRating = 0;
+    const stars = document.querySelectorAll('#ratingStars i');
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            currentRating = parseInt(this.getAttribute('data-rating'));
+            stars.forEach(s => {
+                if (parseInt(s.getAttribute('data-rating')) <= currentRating) {
+                    s.className = 'fas fa-star';
+                } else {
+                    s.className = 'far fa-star';
+                }
+            });
+        });
+    });
+    
+    // Submit Review
+    function submitReview() {
+        const name = document.getElementById('reviewerName').value;
+        const review = document.getElementById('reviewText').value;
+        
+        if (!name || !review || currentRating === 0) {
+            alert('Please fill all fields and select rating');
+            return;
+        }
+        
+        // Create stars HTML
+        let starsHtml = '';
+        for (let i = 0; i < 5; i++) {
+            if (i < currentRating) {
+                starsHtml += '<i class="fas fa-star"></i>';
+            } else {
+                starsHtml += '<i class="far fa-star"></i>';
+            }
+        }
+        
+        // Add review to container
+        const reviewsContainer = document.getElementById('reviewsContainer');
+        const newReview = document.createElement('div');
+        newReview.className = 'review-card';
+        newReview.innerHTML = `
+            <div class="stars">${starsHtml}</div>
+            <div class="review-text">"${review}"</div>
+            <div class="reviewer">- ${name}</div>
+        `;
+        reviewsContainer.insertBefore(newReview, reviewsContainer.firstChild);
+        
+        // Clear form
+        document.getElementById('reviewerName').value = '';
+        document.getElementById('reviewText').value = '';
+        currentRating = 0;
+        stars.forEach(s => s.className = 'far fa-star');
+        
+        alert('Thank you for your review!');
+    }
+    
+    window.addEventListener('scroll', function() {
+        const navbar = document.getElementById('navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+    
+    // Carousel
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const slidesContainer = document.getElementById('carouselSlides');
+    
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+    let autoSlideInterval;
+    
+    function updateCarousel() {
+        const offset = -currentIndex * 100;
+        slidesContainer.style.transform = `translateX(${offset}%)`;
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+        });
+    }
+    
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateCarousel();
+        resetAutoSlide();
+    }
+    
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        updateCarousel();
+        resetAutoSlide();
+    }
+    
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(nextSlide, 5000);
+    }
+    
+    function resetAutoSlide() {
+        clearInterval(autoSlideInterval);
+        startAutoSlide();
+    }
+    
+    const carouselContainer = document.querySelector('.carousel-container');
+    if (carouselContainer) {
+        carouselContainer.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+        carouselContainer.addEventListener('mouseleave', startAutoSlide);
+    }
+    
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    dots.forEach((dot, index) => dot.addEventListener('click', () => {
+        currentIndex = index;
+        updateCarousel();
+        resetAutoSlide();
+    }));
+    
+    startAutoSlide();
+</script>
+</body>
+</html>

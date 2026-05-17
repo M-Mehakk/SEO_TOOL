@@ -1,0 +1,12 @@
+flask
+pandas
+requests
+beautifulsoup4
+textstat
+ddgs
+selenium
+webdriver-manager
+trafilatura
+reportlab
+python-dotenv
+lxml

@@ -1,0 +1,8 @@
+.env
+__pycache__/
+*.pyc
+venv/
+.env.*
+instance/
+users.db
+seo_report.pdf
